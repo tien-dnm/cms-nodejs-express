@@ -1,13 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const createError = require("http-errors");
-require("express-async-errors");
-const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
-dotenv.config();
-
-const authRouter = require("./src/auth/routes");
+require("express-async-errors");
+const v1Router = require("./src/api/v1/routes");
 
 const app = express();
 
@@ -16,16 +13,15 @@ app.use(
     extended: false,
   })
 );
+
 app.use(bodyParser.json());
+
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("APP IS RUNNING");
-});
-app.use("/auth", authRouter);
+app.use("/api/v1", v1Router);
 
-app.use((req, res, next) => {
-  next(createError(404));
+app.use((req, res) => {
+  res.status(404).send("Not Found");
 });
 
 app.use((err, req, res) => {
