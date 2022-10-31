@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const createError = require("http-errors");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("express-async-errors");

@@ -1,5 +1,5 @@
 const express = require("express");
-const { accessToken, refreshToken } = require("./controller");
+const { accessToken, refreshToken } = require("./controllers");
 
 const router = express.Router();
 
