@@ -1,10 +1,10 @@
-const { getUser, getAllUsers } = require("./methods");
+const User = require("./model");
 
 module.exports = {
-  getUsers: async (req, res) => {
+  getAllUsers: async (req, res) => {
     try {
-      const users = await getAllUsers();
-      res.json(users);
+      const user = await User.find({});
+      res.json(user);
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -12,7 +12,7 @@ module.exports = {
   getUserById: async (req, res) => {
     try {
       const id = req.params.id || req.query.id;
-      const user = await getUser(id);
+      const user = await User.findById(id);
       if (user) {
         res.json(user);
       } else {

@@ -1,33 +1,28 @@
-const db = require("../../../../config/db");
+const randToken = require("rand-token");
 const {
   saveRefreshToken,
   useRefreshToken,
   IsValidRefreshToken,
 } = require("../refresh_token/methods");
-const { getUser } = require("../users/methods");
+const User = require("../user/model");
 const { generateToken, decodeToken } = require("./methods");
 
 module.exports = {
   accessToken: async (req, res) => {
     try {
       const { username, password } = req.body;
-      const user = await getUser(username);
+      const user = await User.findOne({ username }).select(
+        "id username email phone_number locked_out is_deleted"
+      );
       if (!user) {
         throw new Error("User not found!");
       }
-      // verify username and password
-      await db.execute("call sp_kmk_user_login(?,?)", [username, password]);
-
-      const userClaims = { username };
-
-      const accessToken = await generateToken(userClaims);
-
+      const payload = { username };
+      const accessToken = await generateToken(payload);
       if (!accessToken) {
         return res.status(401).send("Login failed");
       }
-
-      const newRefreshToken = await saveRefreshToken(username);
-
+      const newRefreshToken = randToken.generate(100);
       return res.json({
         accessToken: accessToken.token,
         accessTokenExpiryTime: accessToken.expirytime,
@@ -63,7 +58,7 @@ module.exports = {
 
       const { username } = decoded.payload;
 
-      const user = await getUser(username);
+      const user = await User.findOne({ username });
 
       if (!user) {
         throw new Error("User not found!");

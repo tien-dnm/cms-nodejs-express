@@ -1,19 +1,25 @@
 require("dotenv").config();
 const express = require("express");
+const logger = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const mongoose = require("mongoose");
+
 require("express-async-errors");
 const v1Router = require("./src/api/v1/routes");
 
 const app = express();
 
-app.use(
-  bodyParser.urlencoded({
-    extended: false,
-  })
-);
-
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(logger("dev"));
+
+mongoose.connect(process.env.MONGO_DB_URL);
+const { connection } = mongoose;
+connection.on("error", console.error.bind(console, "connection error:"));
+connection.once("open", async () => {
+  console.log("Database connected");
+});
 
 app.use(cors());
 
