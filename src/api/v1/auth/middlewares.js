@@ -1,4 +1,4 @@
-const userModel = require("../users/model");
+const User = require("../user/methods");
 const authMethod = require("./methods");
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
         .send("Bạn không có quyền truy cập vào tính năng này!");
     }
 
-    const user = await userModel.getUser(verified.payload.username);
+    const user = await User;
     req.user = user;
 
     return next();

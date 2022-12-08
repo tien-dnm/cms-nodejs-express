@@ -17,6 +17,8 @@
     "no-console": "off",
     "no-unused-vars": "warn",
     "consistent-return": "off",
-    "no-trailing-spaces": "off"
+    "no-trailing-spaces": "off",
+    "camelcase": "off",
+    "object-curly-newline": "off"
   }
 }

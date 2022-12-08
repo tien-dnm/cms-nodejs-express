@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const moment = require("moment");
+const crypto = require("crypto");
 
 const sign = promisify(jwt.sign).bind(jwt);
 const verify = promisify(jwt.verify).bind(jwt);
@@ -11,7 +12,7 @@ module.exports = {
       const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
       const accessTokenLife = process.env.ACCESS_TOKEN_LIFE;
       const accessTokenExpired = moment()
-        .add(1, "days")
+        .add(process.env.ACCESS_TOKEN_LIFE, "ms")
         .format("yyyy-MM-DD HH:mm:ss");
       const accessToken = await sign(
         {
@@ -28,7 +29,7 @@ module.exports = {
         expirytime: accessTokenExpired,
       };
     } catch (error) {
-      console.log(`Error in generate access token:  + ${error}`);
+      console.log(`Error in generating access token:  + ${error}`);
       return null;
     }
   },
@@ -39,8 +40,21 @@ module.exports = {
         ignoreExpiration: true,
       });
     } catch (error) {
-      console.log(`Error in decode access token: ${error}`);
+      console.log(`Error in decoding access token: ${error}`);
       return null;
+    }
+  },
+  verifyPassword: (user, password) => {
+    try {
+      const { password_hash, password_salt } = user;
+      const checkPassword = crypto
+        .createHash("sha256")
+        .update(password + password_salt)
+        .digest("hex");
+      return checkPassword === password_hash;
+    } catch (error) {
+      console.log(`Error in verifying password: ${error}`);
+      return false;
     }
   },
 };

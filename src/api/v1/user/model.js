@@ -10,11 +10,11 @@ const userSchema = new mongoose.Schema({
   },
   password_hash: {
     type: String,
-    required: true,
+    required: false,
   },
   password_salt: {
     type: String,
-    required: true,
+    required: false,
   },
   email: {
     type: String,
@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
   email_confirmed: {
     type: Boolean,
     required: false,
+    default: false,
   },
   phone_number: {
     type: String,
@@ -31,6 +32,7 @@ const userSchema = new mongoose.Schema({
   phone_number_confirmed: {
     type: Boolean,
     required: false,
+    default: false,
   },
   access_failed_count: {
     type: Number,
@@ -39,6 +41,7 @@ const userSchema = new mongoose.Schema({
   locked_out: {
     type: Boolean,
     required: false,
+    default: false,
   },
   locked_out_end: {
     type: Date,
@@ -47,6 +50,7 @@ const userSchema = new mongoose.Schema({
   created_date: {
     type: Date,
     required: false,
+    default: new Date().toISOString(),
   },
   created_by: {
     type: String,
@@ -63,6 +67,7 @@ const userSchema = new mongoose.Schema({
   is_deleted: {
     type: Boolean,
     required: false,
+    default: false,
   },
   deleted_date: {
     type: Date,
