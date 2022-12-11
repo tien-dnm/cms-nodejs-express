@@ -20,11 +20,7 @@ const isAuth = async (req, res, next) => {
 
   const { payload } = verified;
 
-  const { id } = payload;
-
-  const user = await User.findById(id);
-
-  req.user = user;
+  req.user = payload;
 
   return next();
 };

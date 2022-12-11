@@ -7,7 +7,7 @@ export default {
       },
     },
     info: {
-      title: "Portfolio Express API with Swagger",
+      title: "Express API with Swagger",
       version: "0.1.0",
       description:
         "This is a simple CRUD API application made with Express and documented with Swagger",
@@ -20,11 +20,11 @@ export default {
     servers: [
       {
         url: `http://localhost:5035`,
-        description: "dev server",
+        description: "dev",
       },
       {
-        url: `http://localhost:3003`,
-        description: "production server",
+        url: `http://api.tien-dnm.com`,
+        description: "production",
       },
     ],
   },
