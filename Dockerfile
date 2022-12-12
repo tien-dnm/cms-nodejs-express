@@ -17,3 +17,4 @@ COPY . .
 
 EXPOSE 5035
 CMD [ "node", "app.js" ]
+#docker build --pull --rm -f "Dockerfile" -t tiendnm/cmsnodejsexpress:latest "." 

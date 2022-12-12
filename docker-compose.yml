@@ -1,0 +1,8 @@
+version: '3'
+services:
+  cms-nodejs-express:
+    image: tiendnm/cmsnodejsexpress:latest
+    container_name: cms-nodejs-express
+    restart: always
+    ports:
+      - "127.0.0.1:3003:5035"
